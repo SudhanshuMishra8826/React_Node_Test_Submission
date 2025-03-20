@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const fetchSchemaFields = async () => {
+    const CustomFieldModel = mongoose.model('CustomField');
+    return await CustomFieldModel.find({ moduleName: "Meetings" });
+};
+
 const meetingHistory = new mongoose.Schema({
     agenda: { type: String, required: true },
     attendes: [{
@@ -30,4 +35,13 @@ const meetingHistory = new mongoose.Schema({
     },
 })
 
-module.exports = mongoose.model('Meetings', meetingHistory, 'Meetings');
+const initializeMeetingSchema = async () => {
+    const schemaFieldsData = await fetchSchemaFields();
+    schemaFieldsData[0]?.fields?.forEach((item) => {
+        meetingHistory.add({ [item.name]: item?.backendType });
+    });
+};
+
+const meeting = mongoose.model('Meeting', meetingHistory, 'Meeting');
+
+module.exports = { initializeMeetingSchema, meeting, meetingHistory };

@@ -8,7 +8,7 @@ Client/node_modules
 server/node_modules
 server/uploads
 server/.env
-Client/.env
+#Client/.env # I have added this file to the commit just for reference
 
 /.pnp
 .pnp.js

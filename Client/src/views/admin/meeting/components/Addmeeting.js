@@ -42,22 +42,35 @@ const AddMeeting = (props) => {
     const formik = useFormik({
         initialValues: initialValues,
         validationSchema: MeetingSchema,
-        onSubmit: (values, { resetForm }) => {
-            
-        },
+        onSubmit: (values) => {
+            AddData(values)
+        }
     });
     const { errors, touched, values, handleBlur, handleChange, handleSubmit, setFieldValue } = formik
 
-    const AddData = async () => {
-
+    const AddData = async (values) => {
+        try {
+            const response = await postApi('api/meeting/add', values);
+            console.log(response);
+            formik.resetForm()
+            setAction('')
+            onClose()
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const fetchAllData = async () => {
-        
+        try {
+            const response = await getApi('api/meeting');
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useEffect(() => {
-
+        fetchAllData()
     }, [props.id, values.related])
 
     const extractLabels = (selectedItems) => {

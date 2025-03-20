@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { initializeLeadSchema } = require("../model/schema/lead");
 const { initializeContactSchema } = require("../model/schema/contact");
 const { initializePropertySchema } = require("../model/schema/property");
+const { initializeMeetingSchema } = require("../model/schema/meeting");
 const { createNewModule } = require("../controllers/customField/customField.js");
 const customField = require('../model/schema/customField.js');
 const { contactFields } = require('./contactFields.js');
@@ -14,7 +15,7 @@ const initializedSchemas = async () => {
     await initializeLeadSchema();
     await initializeContactSchema();
     await initializePropertySchema();
-
+    await initializeMeetingSchema();
     const CustomFields = await customField.find({ deleted: false });
     const createDynamicSchemas = async (CustomFields) => {
         for (const module of CustomFields) {
